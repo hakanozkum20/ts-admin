@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { getAllTables, getTokens, getTokenCount, type Token } from '@/lib/db'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Database, Key, Users, ArrowRight } from 'lucide-react'
+import { Database, Key, ArrowRight } from 'lucide-react'
 
 export default async function DashboardPage() {
   const tables = await getAllTables()

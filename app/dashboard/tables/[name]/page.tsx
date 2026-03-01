@@ -2,6 +2,17 @@ import { DataTable } from '@/components/data-table'
 import { getTableData, getTableColumns, getAllTables } from '@/lib/db'
 import { notFound } from 'next/navigation'
 
+type TableColumn = {
+  Field: string
+  Type: string
+  Null: string
+  Key: string
+  Default: string | null
+  Extra: string
+}
+
+type TableRow = Record<string, unknown>
+
 export default async function TablePage({
   params,
   searchParams
@@ -34,8 +45,8 @@ export default async function TablePage({
       </div>
       <DataTable
         tableName={name}
-        columns={columns as any[]}
-        data={result.data as Record<string, any>[]}
+        columns={columns as TableColumn[]}
+        data={result.data as TableRow[]}
         total={result.total}
         page={result.page}
         limit={result.limit}

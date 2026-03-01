@@ -45,7 +45,7 @@ export async function getTableColumns(tableName: string) {
 }
 
 // Yeni satır ekle
-export async function insertRow(tableName: string, data: Record<string, any>) {
+export async function insertRow(tableName: string, data: Record<string, unknown>) {
   const columns = Object.keys(data)
   const values = Object.values(data)
 
@@ -61,7 +61,7 @@ export async function insertRow(tableName: string, data: Record<string, any>) {
 export async function updateRow(
   tableName: string,
   id: string | number,
-  data: Record<string, any>
+  data: Record<string, unknown>
 ) {
   const columns = Object.keys(data)
   const values = Object.values(data)

@@ -24,10 +24,12 @@ interface Column {
   Extra: string
 }
 
+type TableRow = Record<string, unknown>
+
 interface DataTableProps {
   tableName: string
   columns: Column[]
-  data: Record<string, any>[]
+  data: TableRow[]
   total: number
   page: number
   limit: number
@@ -47,8 +49,8 @@ export function DataTable({
   const [currentPage, setCurrentPage] = useState(page)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [editDialogOpen, setEditDialogOpen] = useState(false)
-  const [selectedRow, setSelectedRow] = useState<Record<string, any> | null>(null)
-  const [editData, setEditData] = useState<Record<string, any>>({})
+  const [selectedRow, setSelectedRow] = useState<TableRow | null>(null)
+  const [editData, setEditData] = useState<TableRow>({})
 
   // Filtrelenmiş veri
   const filteredData = data.filter((row) => {
@@ -68,13 +70,13 @@ export function DataTable({
   }
 
   // Silme dialogu aç
-  const openDeleteDialog = (row: Record<string, any>) => {
+  const openDeleteDialog = (row: TableRow) => {
     setSelectedRow(row)
     setDeleteDialogOpen(true)
   }
 
   // Düzenleme dialogu aç
-  const openEditDialog = (row: Record<string, any>) => {
+  const openEditDialog = (row: TableRow) => {
     setSelectedRow(row)
     setEditData({ ...row })
     setEditDialogOpen(true)
@@ -120,7 +122,7 @@ export function DataTable({
     setEditDialogOpen(false)
   }
 
-  const formatValue = (value: any): string => {
+  const formatValue = (value: unknown): string => {
     if (value === null) return 'NULL'
     if (typeof value === 'object') return JSON.stringify(value)
     return String(value)
@@ -163,7 +165,7 @@ export function DataTable({
               </TableRow>
             ) : (
               filteredData.map((row, index) => (
-                <TableRow key={row.id || index}>
+                <TableRow key={(row.id as string | number) || index}>
                   <TableCell className="text-muted-foreground">
                     {(currentPage - 1) * limit + index + 1}
                   </TableCell>
@@ -260,7 +262,7 @@ export function DataTable({
                 </Label>
                 <Input
                   id={col.Field}
-                  value={editData[col.Field] || ''}
+                  value={String(editData[col.Field] || '')}
                   onChange={(e) => setEditData({ ...editData, [col.Field]: e.target.value })}
                   className="col-span-3"
                   disabled={col.Key === 'PRI'}

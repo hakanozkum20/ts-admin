@@ -1,5 +1,5 @@
 import { TokenForm } from '@/components/token-form'
-import { getTokens, type Token } from '@/lib/db'
+import { getTokens } from '@/lib/db'
 
 export default async function TokensPage() {
   const tokens = await getTokens(10)
