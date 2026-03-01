@@ -91,9 +91,20 @@ export async function insertToken(tokenKey: string) {
   await prisma.$queryRawUnsafe(sql, tokenKey)
 }
 
+// Token tipi
+export type Token = {
+  token_id: number
+  token_key: string
+  token_type: number
+  token_id1: number
+  token_id2: number
+  token_created: number
+  token_description: string
+}
+
 // Tokenları listele
-export async function getTokens(limit: number = 10) {
-  const result = await prisma.$queryRawUnsafe(`
+export async function getTokens(limit: number = 10): Promise<Token[]> {
+  const result = await prisma.$queryRawUnsafe<Token[]>(`
     SELECT * FROM tokens
     ORDER BY token_created DESC
     LIMIT ${limit}
