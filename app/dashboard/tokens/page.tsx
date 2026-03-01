@@ -1,5 +1,5 @@
 import { TokenForm } from '@/components/token-form'
-import { getTokens } from '@/lib/db'
+import { getTokens, type Token } from '@/lib/db'
 
 export default async function TokensPage() {
   const tokens = await getTokens(10)
@@ -12,7 +12,7 @@ export default async function TokensPage() {
           Create and manage TeamSpeak server tokens
         </p>
       </div>
-      <TokenForm initialTokens={tokens as any[]} />
+      <TokenForm initialTokens={tokens} />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getAllTables, getTokens, getTokenCount } from '@/lib/db'
+import { getAllTables, getTokens, getTokenCount, type Token } from '@/lib/db'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Database, Key, Users, ArrowRight } from 'lucide-react'
@@ -90,7 +90,7 @@ export default async function DashboardPage() {
               <p className="text-sm text-muted-foreground">No tokens found</p>
             ) : (
               <div className="space-y-2">
-                {tokens.slice(0, 5).map((token: any) => (
+                {tokens.slice(0, 5).map((token: Token) => (
                   <div key={token.token_id} className="flex items-center justify-between text-sm">
                     <span className="font-mono truncate flex-1">
                       {token.token_key}
