@@ -1,5 +1,10 @@
 import { prisma } from './prisma'
 
+// Fix BigInt serialization for JSON responses
+;(BigInt.prototype as any).toJSON = function () {
+  return Number(this)
+}
+
 // Tüm tabloları listele
 export async function getAllTables(): Promise<string[]> {
   const result = await prisma.$queryRaw<Array<{ Tables_in_teamspeak: string }>>`

@@ -2,12 +2,22 @@ import Link from 'next/link'
 import { getAllTables, getTokens, getTokenCount, type Token } from '@/lib/db'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Database, Key, ArrowRight } from 'lucide-react'
+import { Database, Key, ArrowRight, AlertCircle } from 'lucide-react'
 
 export default async function DashboardPage() {
-  const tables = await getAllTables()
-  const tokens = await getTokens(5)
-  const tokenCount = await getTokenCount()
+  let tables: string[] = []
+  let tokens: Token[] = []
+  let tokenCount = 0
+  let hasError = false
+
+  try {
+    tables = await getAllTables()
+    tokens = await getTokens(5)
+    tokenCount = await getTokenCount()
+  } catch (error) {
+    console.error('Dashboard error:', error)
+    hasError = true
+  }
 
   const stats = [
     {
@@ -32,6 +42,20 @@ export default async function DashboardPage() {
           Welcome to TeamSpeak Admin Panel
         </p>
       </div>
+
+      {hasError && (
+        <Card className="border-destructive">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-2 text-destructive">
+              <AlertCircle className="h-5 w-5" />
+              <div>
+                <p className="font-semibold">Veri Yükleme Hatası</p>
+                <p className="text-sm">Veritabanına bağlanırken bir hata oluştu. Lütfen daha sonra tekrar deneyin.</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
