@@ -93,7 +93,7 @@ export async function POST(
 // PUT - Satır güncelle
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ name: string; id: string }> }
+  { params }: { params: Promise<{ name: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -139,7 +139,7 @@ export async function PUT(
 // DELETE - Satır sil
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ name: string; id: string }> }
+  { params }: { params: Promise<{ name: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
