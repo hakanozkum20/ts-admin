@@ -3,6 +3,11 @@ import { authOptions } from '@/lib/auth'
 import { getTableData, getTableColumns, insertRow, updateRow, deleteRow, getAllTables } from '@/lib/db'
 import { NextResponse } from 'next/server'
 
+// Fix BigInt serialization for JSON responses
+;(BigInt.prototype as any).toJSON = function () {
+  return Number(this)
+}
+
 // Whitelist for SQL injection protection
 async function isValidTable(tableName: string): Promise<boolean> {
   const tables = await getAllTables()

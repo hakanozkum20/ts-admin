@@ -3,6 +3,11 @@ import { authOptions } from '@/lib/auth'
 import { insertToken, getTokens } from '@/lib/db'
 import { NextResponse } from 'next/server'
 
+// Fix BigInt serialization for JSON responses
+;(BigInt.prototype as any).toJSON = function () {
+  return Number(this)
+}
+
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
